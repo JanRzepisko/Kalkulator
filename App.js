@@ -5,19 +5,14 @@ import 'react-native-gesture-handler';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ScreenA from './src/Screens/ScreenA'
+import Calculator from './src/Components/Calculator'
 
 const Stack = createStackNavigator();
 
 
 function App(){
   return(
-
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Screen_A' component={ScreenA}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Calculator />
   )
 }
 

@@ -10,9 +10,11 @@ const Key = ({char, actionChar,  onPress}) => {
         )
     }
 
+    console.log((actionChar == char) +  ' ' + char + ' ' + actionChar)
+
     return(
         <View style={styles.container}>
-            <TouchableOpacity style={(actionChar == char ? styles.activeItem : styles.item)} onPress={onPress}><Text style={styles.key}>{char}</Text></TouchableOpacity>
+            <TouchableOpacity style={(actionChar != char ? styles.activeItem : styles.item)} onPress={onPress}><Text style={styles.key}>{char}</Text></TouchableOpacity>
         </View>
         )
 }

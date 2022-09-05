@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, FlatList} from "react-native";
 
-import Key  from '../Components/KeyBordComponents'
+import Key  from './KeyBordComponents'
 
 
 
@@ -15,8 +15,7 @@ function Calculate(numberA, numberB, actionChar){
     }
 }
 
-function ScreenA(){
-
+const Calculator = () => {
     const [numberA, setNumberA] = useState('');
     const [numberB, setNumberB] = useState('');
     const [actionChar, setactionChar] = useState('0');
@@ -87,7 +86,7 @@ function ScreenA(){
         {title:'/',  actionChar, onPress:() => OnClickKeyHandler('/')},
         {title:'7',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '7')  : setNumberB(prev => prev + '7'))},
         {title:'8',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '8')  : setNumberB(prev => prev + '8'))},
-        {title:'9',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '8')  : setNumberB(prev => prev + '9'))},
+        {title:'9',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '9')  : setNumberB(prev => prev + '9'))},
         {title:'x',  actionChar, onPress:() => OnClickKeyHandler('x')},
         {title:'6',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '6')  : setNumberB(prev => prev + '6'))},
         {title:'5',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '5')  : setNumberB(prev => prev + '5'))},
@@ -146,4 +145,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ScreenA
+export default Calculator
