@@ -9,10 +9,18 @@ import Calculator from './src/Components/Calculator'
 
 const Stack = createStackNavigator();
 
+const MainScreen = (navigation) => {  return(<Calculator/>) }
+const HistoryScreen = (navigation) => {  return(<View></View>)  }
+
 
 function App(){
   return(
-    <Calculator />
+    <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name='MainScreen' component={MainScreen}/>
+          <Stack.Screen name='HistoryScreen' component={HistoryScreen}/>
+        </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 

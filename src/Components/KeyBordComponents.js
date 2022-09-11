@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Key
+export default Key;

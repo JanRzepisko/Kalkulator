@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, FlatList} from "react-native";
+import { Text, View, StyleSheet, FlatList, Image} from "react-native";
 
 import Key  from './KeyBordComponents'
+import UpKey  from './UpKeyComponent'
 
 
 
@@ -26,10 +27,21 @@ const Calculator = () => {
     const [calculated, setCalculated] = useState(false)
     const [upText, setUpText] = useState()
 
+    
     function OnClickKeyHandler(char){
         setactionChar(char)
-        setNumberAActive(false)
+        if(numberA != ''){
+            setNumberAActive(false)
+        } 
         setCalculated(false)
+    }
+    function OnCommaClick(prev){
+        if(prev == ''){
+            return '0.'
+        }
+        else{
+            return '.'
+        }
     }
     function OnClickChangeChar(){
         if(isNumberAActive){
@@ -66,9 +78,7 @@ const Calculator = () => {
         setResult(Calculate(numberA, numberB, actionChar))
         setCalculated(true)
 
-        const s = numberA + ' ' + actionChar + ' ' + numberB + ' = ' + result
-
-        setUpText(s)
+        setUpText(numberA + ' ' + actionChar + ' ' + numberB + ' = ' + result)
 
         setNumberA('')
         setNumberB('') 
@@ -78,7 +88,14 @@ const Calculator = () => {
         setIsPlusA(true)
         setIsPlusB(true)
     }
-
+    function OnClickPiHandler(){
+        if(isNumberAActive){
+            setNumberA('3.141592653589')
+        }
+        else{
+            setNumberB('3.141592653589')
+        }
+    }
     const KEYS = [
         {title: 'AC', actionChar,  onPress:() => OnClickClear()},
         {title:'+/-', actionChar, onPress:() => OnClickChangeChar()},
@@ -98,24 +115,38 @@ const Calculator = () => {
         {title:'+',  actionChar, onPress:() => OnClickKeyHandler('+')},
         {title:'SPACE',  actionChar, onPress:{}},
         {title:'0',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '0')  : setNumberB(prev => prev + '0'))},
-        {title:'.',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + '.')  : setNumberB(prev => prev + '.'))},
+        {title:'.',  actionChar, onPress:() => (isNumberAActive ? setNumberA(prev => prev + OnCommaClick(prev))  : setNumberB(prev => prev + OnCommaClick(prev)))},
         {title:'=',  actionChar, onPress:() => OnClickCal()}
+    ]
+
+    const UPKEYS = [
+        {title:'π', onPress:() => OnClickPiHandler()},
+        {title:'x²', onPress:() => OnClickKeyHandler('/')},
+        {title:'²\u221a', onPress:() => OnClickKeyHandler('/')},
+        {title:<Image style={styles.ico} source={require('../Img/historyIco.png')}/>, onPress:() => OnClickKeyHandler('/')},
     ]
 
     console.log(numberA + ' ' + actionChar + ' ' + numberB + ' ' + upText)
     
     return(
         <View style={styles.body}>
+            <View>
+            <FlatList scrollEnabled={false} numColumns={4} data={UPKEYS} 
+            renderItem={({item:{title, onPress}}) => {
+                return(
+                    <UpKey char={title} onPress={onPress}/>
+                )
+            }}/>
+            </View>
             <View style={styles.cal}>
             <Text style={styles.textUp}>{numberA} {actionChar} {numberB} {upText}</Text>
                 <Text style={styles.textDown}>{(calculated ? result : isNumberAActive ? (numberA  == '' || numberA  == '-' ? numberA + '0' : numberA) : (numberB == '' || numberB  == '-' ? numberB + '0' : numberB))}</Text>
             </View>
+
+
             <FlatList style={styles.keyboard} scrollEnabled={false} numColumns={4} data={KEYS} 
-            renderItem={({item:{title, onPress}}) => {
-                return(
-                    <Key char={title} onPress={onPress}/>
-                )
-            }}/>
+                renderItem={({item:{title, onPress}}) => {
+                    return(<Key char={title} onPress={onPress}/>)}}/>
         </View>
     );
 }
@@ -124,6 +155,11 @@ const styles = StyleSheet.create({
     body: {
         backgroundColor: '#2b2d42',
         flex:1
+    },
+    ico:{
+        tintColor: '#edf2f4',
+        height: 35,
+        width: 35,
     },
     textDown:{
         marginRight:20,
@@ -136,12 +172,11 @@ const styles = StyleSheet.create({
         color: '#8d99ae',
     },
     cal:{
-        height: '38%',
+        height: '30%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
     },
     keyboard:{
-        height: '62%',
     },
 })
 
